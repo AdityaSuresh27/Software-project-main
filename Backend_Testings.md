@@ -4,11 +4,12 @@
 This document details the unit tests implemented for the Academic Planner Backend. Unlike the integration tests, these tests focus on isolating the controller logic by mocking the database layer (Mongoose models) and external services (Google Gemini API).
 
 **Testing Framework**: Jest + Supertest (Mocked Models)
-**Test Count**: 26 Tests
+**Test Count**: 58 Tests
 **Status**: ✅ All Passed
 
 ## Test Strategy
-- **Controllers Tested**: `TaskController`, `EventController`, `CategoryController`, `AIController`.
+- **Controllers Tested**: `TaskController`, `EventController`, `CategoryController`, `AIController`, `AuthController`, `AttendanceController`, `TimetableController`.
+- **Middleware Tested**: `AuthMiddleware`.
 - **Mocking**:
   - `Mongoose Models`: All database operations (`find`, `save`, `findByIdAndUpdate`, etc.) are mocked using `jest.mock`.
   - `Auth Middleware`: Authentication is bypassed by mocking the middleware to inject a test user (`mockUserId`).
@@ -17,7 +18,25 @@ This document details the unit tests implemented for the Academic Planner Backen
 
 ## Test Coverage
 
-### 1. Task Controller (`tests/unit/taskController.unit.test.js`)
+### 1. Auth Controller (`tests/authController.test.js`)
+| Function | Scenario | Expected Result | Status |
+|----------|----------|-----------------|--------|
+| `register` | Register new user | 201 Created, Returns token & user | ✅ Passed |
+| `register` | Email already exists | 400 Bad Request | ✅ Passed |
+| `login` | Correct credentials | 200 OK, Returns token & user | ✅ Passed |
+| `login` | Wrong password | 400 Bad Request, Invalid credentials | ✅ Passed |
+| `login` | User not found | 400 Bad Request, User not found | ✅ Passed |
+| `getMe` | Valid user ID | 200 OK, Returns user without password | ✅ Passed |
+| `getMe` | Database Error | 500 Internal Server Error | ✅ Passed |
+
+### 2. Auth Middleware (`tests/authMiddleware.test.js`)
+| Function | Scenario | Expected Result | Status |
+|----------|----------|-----------------|--------|
+| `authMiddleware` | Valid Bearer token | Calls `next()`, sets `req.user` | ✅ Passed |
+| `authMiddleware` | No Authorization header | 401 Access Denied | ✅ Passed |
+| `authMiddleware` | Invalid/expired token | 400 Invalid Token | ✅ Passed |
+
+### 3. Task Controller (`tests/unit/taskController.unit.test.js`)
 | Function | Scenario | Expected Result | Status |
 |----------|----------|-----------------|--------|
 | `getTasks` | Fetch all tasks | 200 OK, Returns tasks array | ✅ Passed |
@@ -27,7 +46,7 @@ This document details the unit tests implemented for the Academic Planner Backen
 | `updateTask` | Update existing task | 200 OK, Returns updated task | ✅ Passed |
 | `deleteTask` | Delete existing task | 200 OK, Confirmation message | ✅ Passed |
 
-### 2. Event Controller (`tests/unit/eventController.unit.test.js`)
+### 4. Event Controller (`tests/unit/eventController.unit.test.js`)
 | Function | Scenario | Expected Result | Status |
 |----------|----------|-----------------|--------|
 | `createEvent` | Standard fields | 201 Created | ✅ Passed |
@@ -38,7 +57,23 @@ This document details the unit tests implemented for the Academic Planner Backen
 | `updateEvent` | Not Found | 404 Not Found | ✅ Passed |
 | `deleteEvent` | Delete success | 200 OK | ✅ Passed |
 
-### 3. Category Controller (`tests/unit/categoryController.unit.test.js`)
+### 5. Attendance Controller (`tests/attendanceController.test.js`)
+| Function | Scenario | Expected Result | Status |
+|----------|----------|-----------------|--------|
+| `getAttendance` | Fetch all records | 200 OK, Returns records array | ✅ Passed |
+| `getAttendance` | Database Error | 500 Internal Server Error | ✅ Passed |
+| `markAttendance` | New record (upsert insert) | 200 OK, Creates record | ✅ Passed |
+| `markAttendance` | Existing record (upsert update) | 200 OK, Updates record | ✅ Passed |
+| `markAttendance` | Database Error | 500 Internal Server Error | ✅ Passed |
+| `deleteAttendance` | Delete existing record | 200 OK, Confirmation message | ✅ Passed |
+| `deleteAttendance` | Record not found | 404 Not Found | ✅ Passed |
+| `deleteAttendance` | Database Error | 500 Internal Server Error | ✅ Passed |
+| `getAttendanceStats` | Multiple courses | 200 OK, Grouped stats by course | ✅ Passed |
+| `getAttendanceStats` | Cancelled records excluded | 200 OK, Correct totals | ✅ Passed |
+| `getAttendanceStats` | No records | 200 OK, Empty object | ✅ Passed |
+| `getAttendanceStats` | Database Error | 500 Internal Server Error | ✅ Passed |
+
+### 6. Category Controller (`tests/unit/categoryController.unit.test.js`)
 | Function | Scenario | Expected Result | Status |
 |----------|----------|-----------------|--------|
 | `getCategories` | Fetch categories | 200 OK | ✅ Passed |
@@ -47,7 +82,21 @@ This document details the unit tests implemented for the Academic Planner Backen
 | `updateCategory` | Not Found | 404 Not Found | ✅ Passed |
 | `deleteCategory` | Delete success | 200 OK | ✅ Passed |
 
-### 4. AI Controller (`tests/unit/aiController.unit.test.js`)
+### 7. Timetable Controller (`tests/timetableController.test.js`)
+| Function | Scenario | Expected Result | Status |
+|----------|----------|-----------------|--------|
+| `getTimetable` | Fetch all entries | 200 OK, Returns entries array | ✅ Passed |
+| `getTimetable` | Database Error | 500 Internal Server Error | ✅ Passed |
+| `createTimetableEntry` | Create valid entry | 201 Created | ✅ Passed |
+| `createTimetableEntry` | Save Error | 500 Internal Server Error | ✅ Passed |
+| `updateTimetableEntry` | Update existing entry | 200 OK, Returns updated entry | ✅ Passed |
+| `updateTimetableEntry` | Entry not found | 404 Not Found | ✅ Passed |
+| `updateTimetableEntry` | Database Error | 500 Internal Server Error | ✅ Passed |
+| `deleteTimetableEntry` | Delete existing entry | 200 OK, Confirmation message | ✅ Passed |
+| `deleteTimetableEntry` | Entry not found | 404 Not Found | ✅ Passed |
+| `deleteTimetableEntry` | Database Error | 500 Internal Server Error | ✅ Passed |
+
+### 8. AI Controller (`tests/unit/aiController.unit.test.js`)
 | Function | Scenario | Expected Result | Status |
 |----------|----------|-----------------|--------|
 | `getDailyWorkload` | Calculate minutes | 200 OK, Correct Totals | ✅ Passed |
@@ -57,6 +106,7 @@ This document details the unit tests implemented for the Academic Planner Backen
 | `generateStudyPlan` | AI Service Error | 500 Error | ✅ Passed |
 | `checkOvercommitment` | Workload > 8h | 200 OK, Returns Warning | ✅ Passed |
 | `analyzeProcrastination` | Missed Deadlines | 200 OK, Returns Score | ✅ Passed |
+
 
 ## How to Run Unit Tests
 To execute the unit test suite, run the following command:
