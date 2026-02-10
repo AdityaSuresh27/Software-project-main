@@ -1,12 +1,12 @@
-# 🎓 EduPlanAI — Intelligent Academic Planner
+# 🎓 ClassFlow — Intelligent Academic Planner
 
 > A multi-platform academic planner that helps students organize coursework, track attendance, manage timetables, and generate AI-powered study plans — all in one place.
 
 ---
 
-## 📌 What is EduPlanAI?
+## 📌 What is ClassFlow?
 
-EduPlanAI (ClassFlow) is a full-stack academic planning application built as part of a Software Engineering course project. It addresses a common student pain point: **juggling multiple tools** for calendars, to-do lists, attendance tracking, and study scheduling.
+ClassFlow is a full-stack academic planning application built as part of a Software Engineering course project. It addresses a common student pain point: **juggling multiple tools** for calendars, to-do lists, attendance tracking, and study scheduling.
 
 Instead of switching between apps, students get a **single unified platform** available on both **web and mobile**, backed by a shared API server that keeps everything in sync.
 
@@ -187,14 +187,6 @@ cd Software-Engineering-Project-Backend
 npm install
 ```
 
-Create a `.env` file:
-```env
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret_key
-GEMINI_API_KEY=your_google_gemini_api_key
-PORT=5000
-```
-
 Start the server:
 ```bash
 npm run dev
@@ -205,11 +197,6 @@ npm run dev
 git clone https://github.com/udaykumar223/SWE_WEB.git
 cd SWE_WEB
 npm install
-```
-
-Create a `.env` file:
-```env
-VITE_API_URL=http://localhost:5000/api
 ```
 
 Start the dev server:
@@ -235,18 +222,6 @@ flutter run
 | Frontend Web | Vitest + React Testing Library | `npm test` |
 | Frontend Mobile | Flutter Test | `flutter test` |
 
-### Backend Test Coverage
-- **Auth Controller** — registration, login, getMe (7 tests)
-- **Auth Middleware** — token validation (3 tests)
-- **Attendance Controller** — CRUD + stats logic (12 tests)
-- **Timetable Controller** — full CRUD (10 tests)
-
-### Frontend Web Test Coverage
-- Page-level tests for Home, Auth, Calendar, Events, Timetable, Attendance, and Profile pages
-- Component tests for modals (AddEvent, AddTimetable, EventDetails, MarkAttendance)
-- Utility component tests (Footer, LoadingSpinner)
-
----
 
 ## 📁 Project Structure
 
@@ -286,8 +261,16 @@ EduPlanAI/
 
 This project was developed as part of a **Software Engineering** course to demonstrate full-stack development, DevOps practices, and collaborative software design.
 
----
+Teammates:
+
+-- Aditya Suresh - Frontend/Backend Engineer - https://github.com/AdityaSuresh27
+-- Nehan GRM - Devops Engineer - https://github.com/NEHANGRM
+-- Uday Kumar - Frontend Engineer - https://github.com/udaykumar223
+-- Shruthilaya AV - Backend Engineer - https://github.com/ShruthilayaAV
+-- Tejeshwara Reddy Dareddy - Testing Engineer - https://github.com/TejeswaraReddy-Dareddy
+
 
 ## 📄 License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
