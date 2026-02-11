@@ -77,7 +77,7 @@ This project is split into **four repositories**, each handling a specific part 
 | 📄 **Main (Docs & DevOps)** | [AdityaSuresh27/Software-project-main](https://github.com/AdityaSuresh27/Software-project-main) | Documentation, diagrams, DevOps strategy, and testing plans |
 | ⚙️ **Backend API** | [NEHANGRM/Software-Engineering-Project-Backend](https://github.com/NEHANGRM/Software-Engineering-Project-Backend) | Node.js REST API with MongoDB and Gemini AI integration |
 | 🌐 **Frontend Web** | [udaykumar223/SWE_WEB](https://github.com/udaykumar223/SWE_WEB) | React 19 web application with responsive UI |
-| 📱 **Frontend Mobile** | [AdityaSuresh27/Software-Project-App-Frontend](https://github.com/AdityaSuresh27/Software-Project-App-Frontend) | Flutter cross-platform mobile application |
+| 📱 **Frontend Mobile** | [AdityaSuresh27/Software-Project-App](https://github.com/AdityaSuresh27/Software-Project-App) | Flutter cross-platform mobile application |
 
 ---
 
