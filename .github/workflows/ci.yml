@@ -1,0 +1,29 @@
+name: Documentation CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Lint Markdown files
+        run: npx -y markdownlint-cli2 "**/*.md" "#node_modules"
+        continue-on-error: true
+
+      - name: Check for broken links
+        run: npx -y markdown-link-check README.md
+        continue-on-error: true
